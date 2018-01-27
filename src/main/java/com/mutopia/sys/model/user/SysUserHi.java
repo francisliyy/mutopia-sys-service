@@ -1,4 +1,4 @@
-package com.mutopia.business.model.user;
+package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="sys_user_his")
 @NamedQuery(name="SysUserHi.findAll", query="SELECT s FROM SysUserHi s")
-public class SysUserHi extends com.mutopia.business.model.base.BaseEntity  {
+public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="active_time")

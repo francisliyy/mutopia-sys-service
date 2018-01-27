@@ -1,4 +1,4 @@
-package com.mutopia.business.model.dim;
+package com.mutopia.sys.model.dim;
 
 import java.io.Serializable;
 import javax.persistence.*;

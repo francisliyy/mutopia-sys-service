@@ -6,7 +6,7 @@
  * @author lyx
  * @version 1.0
  */
-package com.mutopia.business.controller.base;
+package com.mutopia.sys.controller.base;
 
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;

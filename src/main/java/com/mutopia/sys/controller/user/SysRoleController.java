@@ -6,7 +6,7 @@
  * @author lyx
  * @version 1.0
  */
-package com.mutopia.business.controller.user;
+package com.mutopia.sys.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.mutopia.business.controller.base.BaseController;
-import com.mutopia.business.model.user.SysRole;
-import com.mutopia.business.repository.SysRoleRepository;
+import com.mutopia.sys.controller.base.BaseController;
+import com.mutopia.sys.model.user.SysRole;
+import com.mutopia.sys.repository.SysRoleRepository;
 
 @Controller
 public class SysRoleController extends BaseController{

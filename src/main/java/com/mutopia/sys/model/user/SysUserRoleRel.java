@@ -1,4 +1,4 @@
-package com.mutopia.business.model.user;
+package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,7 +11,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="sys_user_role_rel")
 @NamedQuery(name="SysUserRoleRel.findAll", query="SELECT s FROM SysUserRoleRel s")
-public class SysUserRoleRel extends com.mutopia.business.model.base.BaseEntity  {
+public class SysUserRoleRel extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="create_time")

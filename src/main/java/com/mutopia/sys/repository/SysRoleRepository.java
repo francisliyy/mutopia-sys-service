@@ -6,11 +6,11 @@
  * @author lyx
  * @version 1.0
  */
-package com.mutopia.business.repository;
+package com.mutopia.sys.repository;
 
 import org.springframework.data.repository.Repository;
 
-import com.mutopia.business.model.user.SysRole;
+import com.mutopia.sys.model.user.SysRole;
 
 public interface SysRoleRepository extends Repository<SysRole, Integer> {
 	

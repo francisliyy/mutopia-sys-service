@@ -1,17 +1,17 @@
-package com.mutopia.business.model.user;
+package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 
 
 /**
- * The persistent class for the sys_role_his database table.
+ * The persistent class for the sys_user_role_rel_his database table.
  * 
  */
 @Entity
-@Table(name="sys_role_his")
-@NamedQuery(name="SysRoleHi.findAll", query="SELECT s FROM SysRoleHi s")
-public class SysRoleHi extends com.mutopia.business.model.base.BaseEntity  {
+@Table(name="sys_user_role_rel_his")
+@NamedQuery(name="SysUserRoleRelHi.findAll", query="SELECT s FROM SysUserRoleRelHi s")
+public class SysUserRoleRelHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="create_time")
@@ -19,10 +19,6 @@ public class SysRoleHi extends com.mutopia.business.model.base.BaseEntity  {
 
 	@Column(name="create_user")
 	private int createUser;
-
-	private String description;
-
-	private String name;
 
 	@Column(name="role_id")
 	private int roleId;
@@ -35,7 +31,13 @@ public class SysRoleHi extends com.mutopia.business.model.base.BaseEntity  {
 	@Column(name="update_user")
 	private int updateUser;
 
-	public SysRoleHi() {
+	@Column(name="user_id")
+	private int userId;
+
+	@Column(name="user_role_rel_id")
+	private int userRoleRelId;
+
+	public SysUserRoleRelHi() {
 	}
 
 	public Timestamp getCreateTime() {
@@ -52,22 +54,6 @@ public class SysRoleHi extends com.mutopia.business.model.base.BaseEntity  {
 
 	public void setCreateUser(int createUser) {
 		this.createUser = createUser;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getRoleId() {
@@ -100,6 +86,22 @@ public class SysRoleHi extends com.mutopia.business.model.base.BaseEntity  {
 
 	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
+	}
+
+	public int getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public int getUserRoleRelId() {
+		return this.userRoleRelId;
+	}
+
+	public void setUserRoleRelId(int userRoleRelId) {
+		this.userRoleRelId = userRoleRelId;
 	}
 
 }

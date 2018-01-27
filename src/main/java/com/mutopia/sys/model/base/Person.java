@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mutopia.business.model.base;
+package com.mutopia.sys.model.base;
 
 import javax.persistence.Column;
 

@@ -6,7 +6,7 @@
  * @author lyx
  * @version 1.0
  */
-package com.mutopia.business.utils;
+package com.mutopia.sys.utils;
 
 import java.security.MessageDigest;
 

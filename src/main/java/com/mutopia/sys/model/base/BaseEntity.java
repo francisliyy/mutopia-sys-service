@@ -1,4 +1,4 @@
-package com.mutopia.business.model.base;
+package com.mutopia.sys.model.base;
 
 import java.io.Serializable;
 

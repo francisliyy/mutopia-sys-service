@@ -1,4 +1,4 @@
-package com.mutopia.business.model.user;
+package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="sys_user")
 @NamedQuery(name="SysUser.findAll", query="SELECT s FROM SysUser s")
-public class SysUser extends com.mutopia.business.model.base.BaseEntity  {
+public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="active_time")

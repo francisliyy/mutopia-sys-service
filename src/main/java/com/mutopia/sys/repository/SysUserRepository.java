@@ -6,14 +6,15 @@
  * @author lyx
  * @version 1.0
  */
-package com.mutopia.business.repository;
+package com.mutopia.sys.repository;
 
 import org.springframework.data.repository.Repository;
 
-import com.mutopia.business.model.user.SysUser;
+import com.mutopia.sys.model.user.SysUser;
 
+@org.springframework.stereotype.Repository
 public interface SysUserRepository extends Repository<SysUser, Integer> {
 	
-	void save(SysUser user);
+	SysUser save(SysUser user);
 
 }
