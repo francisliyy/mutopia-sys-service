@@ -2,9 +2,13 @@ package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+
+import io.swagger.annotations.ApiModel;
 
 import java.util.Date;
 import java.sql.Timestamp;
@@ -14,6 +18,7 @@ import java.sql.Timestamp;
  * The persistent class for the sys_user database table.
  * 
  */
+@ApiModel(description = "用户对象", subTypes = {SysUser.class})
 @Entity
 @Table(name="sys_user")
 @NamedQuery(name="SysUser.findAll", query="SELECT s FROM SysUser s")
@@ -31,6 +36,8 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	@Column(name="create_time")
 	private Timestamp createTime;
 
+	@Email
+	@NotNull(message="Your email must not be empty")
 	private String email;
 
 	private String gender;
@@ -42,7 +49,7 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	private String name;
 
-	@NotEmpty(message="Your nick name must not be empty")
+	@NotNull(message="Your nick name must not be empty")
 	private String nickname;
 	
 	@Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")

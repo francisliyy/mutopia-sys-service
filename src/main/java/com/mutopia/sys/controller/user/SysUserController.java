@@ -10,23 +10,29 @@ package com.mutopia.sys.controller.user;
 
 import javax.validation.Valid;
 
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mutopia.sys.exceptions.EmailExistException;
 import com.mutopia.sys.model.user.SysUser;
 import com.mutopia.sys.service.user.SysUserService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+
+@Api(description = "用户服务")
 @RestController
 @RequestMapping("/user")
 public class SysUserController {
 	
+	@Autowired
 	private SysUserService sysUserService;
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -39,22 +45,22 @@ public class SysUserController {
         dataBinder.setValidator(new SysUserValidator());
     }*/
 	
-	@PostMapping("/{nickname}")
-    public SysUser initCreationForm(@Valid @RequestBody SysUser user, BindingResult result, @PathVariable String nickname) throws MethodArgumentNotValidException {
-		
-		SysUser sysuser = new SysUser();
-		sysuser.setNickname("");
-		
-		if (StringUtils.hasLength(sysuser.getNickname())){
-            result.rejectValue("name", "duplicate", "already exists");
-        }
+	@ApiOperation(value="创建用户", notes="根据SysUser对象创建用户")
+	@ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "SysUser")
+	@PostMapping("/")
+    public SysUser initCreationForm(@Valid @RequestBody SysUser user, BindingResult result) throws MethodArgumentNotValidException {
 		
         if (result.hasErrors()) {        	
         	throw new MethodArgumentNotValidException(null, result);	
         }	
         
-        SysUser newuser = this.sysUserService.createUser(sysuser);
-		//model.put("owner", owner);
+        //通过邮箱验证用户是否已存在
+        SysUser existUser = this.sysUserService.getUserByEmail(user.getEmail());
+        if(existUser!=null){
+        	throw new EmailExistException(user.getEmail());
+        }
+        
+        SysUser newuser = this.sysUserService.createUser(user);
         return newuser;
     }
 

@@ -14,8 +14,10 @@ public interface SysUserService {
 	
 	SysUser createUser(SysUser user);
 	
+	SysUser getUserByEmail(String nickname);	
+	
 	//TODO
-	//SysUser getUserById(Long id);	
+	//SysUser getUserByNic(Long id);	
 	//TODO
 	//SysUser updateUser(SysUser user);
 	//TODO

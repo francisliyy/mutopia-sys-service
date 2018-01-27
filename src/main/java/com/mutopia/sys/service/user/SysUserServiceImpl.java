@@ -19,12 +19,20 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Autowired
 	private SysUserRepository sysUserRepository;
+	
+	@Override
+	public SysUser getUserByEmail(String email) {
+		return this.sysUserRepository.findByEmail(email);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.mutopia.sys.service.user.SysUserService#createUser(com.mutopia.sys.model.user.SysUser)
 	 */
 	@Override
 	public SysUser createUser(SysUser user) {
+		
+		SysUser newuser = new SysUser();
+		
 		// TODO Auto-generated method stub
 		return this.sysUserRepository.save(user);
 	}
