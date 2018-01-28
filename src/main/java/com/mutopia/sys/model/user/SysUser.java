@@ -3,10 +3,12 @@ package com.mutopia.sys.model.user;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.annotations.ApiModel;
 
@@ -25,34 +27,35 @@ import java.sql.Timestamp;
 public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="active_time")
+	@Column(name="active_time",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp activeTime;
 
 	private String alipay;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
 
 	@Column(name="create_time")
 	private Timestamp createTime;
 
+	@NotEmpty(message="请输入您的电子邮件")
 	@Email
-	@NotNull(message="Your email must not be empty")
 	private String email;
 
 	private String gender;
 
 	private String logo;
 
-	@Digits(fraction = 0, integer = 11)
+	@Pattern(regexp="^1\\d{10}$",message="手机号码有误")
 	private String mobile;
 
 	private String name;
 
-	@NotNull(message="Your nick name must not be empty")
+	@NotEmpty(message="请输入您的昵称")
 	private String nickname;
 	
-	@Size(min = 6, max = 15, message = "Your password must between 6 and 15 characters")
+	@Size(min = 6, max = 15, message = "您的密码需为6~15位")
 	private String password;
 
 	private String qq;

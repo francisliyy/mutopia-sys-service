@@ -8,11 +8,15 @@
  */
 package com.mutopia.sys.service.user;
 
+import java.util.Date;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mutopia.sys.model.user.SysUser;
 import com.mutopia.sys.repository.SysUserRepository;
+import com.mutopia.sys.utils.Md5Encrypt;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -32,6 +36,9 @@ public class SysUserServiceImpl implements SysUserService {
 	public SysUser createUser(SysUser user) {
 		
 		SysUser newuser = new SysUser();
+		BeanUtils.copyProperties(user, newuser);
+		
+		newuser.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
 		
 		// TODO Auto-generated method stub
 		return this.sysUserRepository.save(user);

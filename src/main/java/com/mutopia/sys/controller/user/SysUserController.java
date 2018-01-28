@@ -35,10 +35,10 @@ public class SysUserController {
 	@Autowired
 	private SysUserService sysUserService;
 	
-	@RequestMapping(method = RequestMethod.GET)
+	/*@RequestMapping(method = RequestMethod.GET)
     public String sayHello() {
         return "Hello world";
-    }
+    }*/
 	
 	/*@InitBinder
     public void initUserBinder(WebDataBinder dataBinder) {
