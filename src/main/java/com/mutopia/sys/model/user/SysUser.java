@@ -65,8 +65,18 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	private String type;
 
 	private String wechat;
+	
+	private String varifycode;
 
 	public SysUser() {
+	}
+
+	public String getVarifycode() {
+		return varifycode;
+	}
+
+	public void setVarifycode(String varifycode) {
+		this.varifycode = varifycode;
 	}
 
 	public Timestamp getActiveTime() {

@@ -53,8 +53,18 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private int userId;
 
 	private String wechat;
+	
+	private String varifycode;
 
 	public SysUserHi() {
+	}
+	
+	public String getVarifycode() {
+		return varifycode;
+	}
+
+	public void setVarifycode(String varifycode) {
+		this.varifycode = varifycode;
 	}
 
 	public Timestamp getActiveTime() {

@@ -3,12 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mutopia</groupId>
-  <artifactId>business</artifactId>
+  <artifactId>sysmgt</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>business</name>
-  <description>Business Platform for Mutopia</description>
+  <name>sysmgt</name>
+  <description>System management Platform for Mutopia</description>
 
   	<parent>
 		<groupId>org.springframework.boot</groupId>
