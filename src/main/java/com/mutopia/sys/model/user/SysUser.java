@@ -1,8 +1,6 @@
 package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -27,7 +25,8 @@ import java.sql.Timestamp;
 public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
-	@Column(name="active_time",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	//@Column(name="active_time",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@Column(name="active_time")
 	private Timestamp activeTime;
 
 	private String alipay;
@@ -47,7 +46,7 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	private String logo;
 
-	@Pattern(regexp="^1\\d{10}$",message="手机号码有误")
+	@Pattern(regexp="^\\s*|1\\d{10}$",message="手机号码有误")
 	private String mobile;
 
 	private String name;
@@ -66,17 +65,17 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	private String wechat;
 	
-	private String varifycode;
+	private String verifycode;
 
 	public SysUser() {
 	}
 
-	public String getVarifycode() {
-		return varifycode;
+	public String getVerifycode() {
+		return verifycode;
 	}
 
-	public void setVarifycode(String varifycode) {
-		this.varifycode = varifycode;
+	public void setVerifycode(String verifycode) {
+		this.verifycode = verifycode;
 	}
 
 	public Timestamp getActiveTime() {
