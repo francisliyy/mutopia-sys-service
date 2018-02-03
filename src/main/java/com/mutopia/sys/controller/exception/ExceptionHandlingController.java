@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.mutopia.sys.exceptions.EmailExistException;
+import com.mutopia.sys.exceptions.SysMgtException;
 import com.mutopia.sys.model.exception.ExceptionResponse;
 import com.mutopia.sys.utils.ValidationUtil;
 
@@ -44,6 +45,14 @@ public class ExceptionHandlingController {
         errors.add(ex.getMessage());
         response.setErrors(errors);
         return new ResponseEntity<ExceptionResponse>(response, HttpStatus.CONFLICT);
+    }
+	
+	@ExceptionHandler(SysMgtException.class)
+    public ResponseEntity<ExceptionResponse> invalidInput(SysMgtException ex) {
+        ExceptionResponse response = new ExceptionResponse();
+        response.setErrorCode("SysMgt Error");
+        response.setErrorMessage(ex.getLocalizedMessage());
+        return new ResponseEntity<ExceptionResponse>(response, HttpStatus.BAD_REQUEST);
     }
 	
 }

@@ -47,7 +47,7 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private String type;
 
 	@Column(name="update_time")
-	private Timestamp updateTime;
+	private Date updateTime;
 
 	@Column(name="user_id")
 	private int userId;
@@ -179,11 +179,11 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.type = type;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

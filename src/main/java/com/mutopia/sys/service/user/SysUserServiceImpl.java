@@ -8,11 +8,15 @@
  */
 package com.mutopia.sys.service.user;
 
+import java.util.Date;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mutopia.sys.model.user.SysUser;
+import com.mutopia.sys.model.user.SysUserHi;
+import com.mutopia.sys.repository.SysUserHiRepository;
 import com.mutopia.sys.repository.SysUserRepository;
 import com.mutopia.sys.utils.Md5Encrypt;
 
@@ -21,6 +25,9 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Autowired
 	private SysUserRepository sysUserRepository;
+	
+	@Autowired
+	private SysUserHiRepository sysUserHiRepository;
 	
 	@Override
 	public SysUser getUserByEmail(String email) {
@@ -33,13 +40,33 @@ public class SysUserServiceImpl implements SysUserService {
 	@Override
 	public SysUser createUser(SysUser user) {
 		
-		SysUser newuser = new SysUser();
-		BeanUtils.copyProperties(user, newuser);
-		
-		newuser.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
-		
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+		user.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		this.sysUserHiRepository.save(sysUserhi);
 		// TODO Auto-generated method stub
-		return this.sysUserRepository.save(user);
+		
+		return newuser;
+	}
+
+	@Override
+	public SysUser updateUser(SysUser user) {
+
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
 	}
 
 }

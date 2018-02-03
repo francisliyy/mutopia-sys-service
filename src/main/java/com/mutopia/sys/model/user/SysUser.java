@@ -27,7 +27,7 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	//@Column(name="active_time",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	@Column(name="active_time")
-	private Timestamp activeTime;
+	private Date activeTime;
 
 	private String alipay;
 
@@ -54,7 +54,7 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	@NotEmpty(message="请输入您的昵称")
 	private String nickname;
 	
-	@Size(min = 6, max = 15, message = "您的密码需为6~15位")
+	@Size(min = 6, message = "您的密码需为大于等于6位")
 	private String password;
 
 	private String qq;
@@ -78,11 +78,11 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 		this.verifycode = verifycode;
 	}
 
-	public Timestamp getActiveTime() {
+	public Date getActiveTime() {
 		return this.activeTime;
 	}
 
-	public void setActiveTime(Timestamp activeTime) {
+	public void setActiveTime(Date activeTime) {
 		this.activeTime = activeTime;
 	}
 
