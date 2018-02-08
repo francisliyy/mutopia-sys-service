@@ -22,6 +22,10 @@ public interface SysUserRepository extends Repository<SysUser, Integer> {
     @Transactional(readOnly = true)	
 	SysUser findByEmail(@Param("email") String email);
 	
+	@Query("SELECT DISTINCT user FROM SysUser user WHERE user.mobile = :mobile")
+    @Transactional(readOnly = true)	
+	SysUser findByMobile(@Param("mobile") String mobile);
+	
 	SysUser save(SysUser user);
 
 }

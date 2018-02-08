@@ -38,7 +38,6 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	@Column(name="create_time")
 	private Timestamp createTime;
 
-	@NotEmpty(message="请输入您的电子邮件")
 	@Email
 	private String email;
 

@@ -10,7 +10,7 @@ package com.mutopia.sys.vo;
 
 import java.util.Date;
 
-public class MailObj {
+public class MailVo {
 	
 	private String isImmediate;
 

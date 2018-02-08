@@ -33,6 +33,11 @@ public class SysUserServiceImpl implements SysUserService {
 	public SysUser getUserByEmail(String email) {
 		return this.sysUserRepository.findByEmail(email);
 	}
+	
+	@Override
+	public SysUser getUserByMobile(String mobile) {
+		return this.sysUserRepository.findByMobile(mobile);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.mutopia.sys.service.user.SysUserService#createUser(com.mutopia.sys.model.user.SysUser)

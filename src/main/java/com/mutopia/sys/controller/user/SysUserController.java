@@ -9,30 +9,32 @@
 package com.mutopia.sys.controller.user;
 
 import java.util.Date;
+import java.util.Random;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.mutopia.sys.constants.Constants;
 import com.mutopia.sys.exceptions.EmailExistException;
+import com.mutopia.sys.exceptions.MobileExistException;
 import com.mutopia.sys.exceptions.SysMgtException;
 import com.mutopia.sys.model.user.SysUser;
 import com.mutopia.sys.service.user.SysUserService;
 import com.mutopia.sys.utils.Md5Encrypt;
-import com.mutopia.sys.vo.MailObj;
+import com.mutopia.sys.vo.MailVo;
+import com.mutopia.sys.vo.SmsVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -50,6 +52,8 @@ public class SysUserController {
 	@Autowired
     private Environment env;
 	
+	private Random rNo = new Random();
+	
 	/*@InitBinder
     public void initUserBinder(WebDataBinder dataBinder) {
         dataBinder.setValidator(new SysUserValidator());
@@ -58,7 +62,7 @@ public class SysUserController {
 	@ApiOperation(value="创建用户", notes="根据SysUser对象创建用户")
 	@ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "SysUser")
 	@PostMapping("/")
-    public SysUser initCreationForm(@Valid @RequestBody SysUser user, BindingResult result) throws MethodArgumentNotValidException {
+    public SysUser initCreationForm(@Valid @RequestBody SysUser user, BindingResult result) throws MethodArgumentNotValidException{
 		
 		String verifyCode = "";
 		
@@ -66,32 +70,57 @@ public class SysUserController {
         	throw new MethodArgumentNotValidException(null, result);	
         }	
         
-        //通过邮箱验证用户是否已存在
-        SysUser existUser = this.sysUserService.getUserByEmail(user.getEmail());
-        if(existUser!=null){
-        	throw new EmailExistException(user.getEmail());
+        if(user.getEmail()==null&&"".equals(user.getEmail())&&user.getMobile()==null&&"".equals(user.getMobile())){
+        	ObjectError objErr = new ObjectError("customer error", "请输入手机号或电子邮箱地址");
+        	result.addError(objErr);
+        	throw new MethodArgumentNotValidException(null, result);
         }
         
-        user.setStatus(Constants.USER_STATUS_FORBIDDEN);
+        
         
         if(!"".equals(user.getMobile())){//手机验证激活
         	
-        }else if(!"".equals(user.getEmail())){//邮件激活
-        	verifyCode = Md5Encrypt.encodeByMD5("email"+user.getEmail());
+        	//通过邮箱验证用户是否已存在
+            SysUser existUser = this.sysUserService.getUserByMobile(user.getMobile());
+            if(existUser!=null){
+            	throw new MobileExistException(user.getMobile());
+            } 
             
+        	verifyCode = rNo.nextInt((999999 - 100000) + 1) + 100000 +"";
+        }else if(!"".equals(user.getEmail())){//邮件激活
+        	
+        	//通过邮箱验证用户是否已存在
+            SysUser existUser = this.sysUserService.getUserByEmail(user.getEmail());
+            if(existUser!=null){
+            	throw new EmailExistException(user.getEmail());
+            }            
+            
+        	verifyCode = Md5Encrypt.encodeByMD5("email"+user.getEmail());            
         }
         user.setVerifycode(verifyCode);
+        user.setStatus(Constants.USER_STATUS_FORBIDDEN);
         SysUser newuser = this.sysUserService.createUser(user);
         
         RestTemplate restTemplate = new RestTemplate();
         
         if(!"".equals(user.getMobile())){//手机验证激活
         	
+        	SmsVo smsvo = new SmsVo();
+        	
+        	smsvo.setSmsReceiver(user.getMobile());
+        	smsvo.setSmsContent(verifyCode);
+        	smsvo.setIsImmediate(Constants.MSG_SEND_IMMEDIATE);
+        	smsvo.setSmsSourceSystem(Constants.CURRENT_SYSTEM);
+        	smsvo.setSmsSourceCtlUrl("/user");
+        	smsvo.setSmsTime(new Date());
+        	
+        	restTemplate.postForEntity(this.env.getProperty("mutopia.msg.system")+"/alisms/", smsvo,Boolean.class);
+        	
         }else if(!"".equals(user.getEmail())){//邮件激活
         	/**
              * 发送激活邮件
              */
-        	MailObj mailObj = new MailObj();
+        	MailVo mailObj = new MailVo();
             
     		///邮件的内容  
             StringBuffer contentsb=new StringBuffer("点击下面链接激活账号，链接只能使用一次，请尽快激活！</br>");  

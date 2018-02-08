@@ -16,7 +16,9 @@ public interface SysUserService {
 	
 	SysUser updateUser(SysUser user);
 	
-	SysUser getUserByEmail(String nickname);
+	SysUser getUserByEmail(String email);
+	
+	SysUser getUserByMobile(String mobile);
 	
 	//TODO
 	//SysUser getUserByNic(Long id);	
