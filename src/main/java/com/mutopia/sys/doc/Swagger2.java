@@ -39,7 +39,7 @@ public class Swagger2 {
     	Contact contact=new Contact("Yingxin Li","","liyx8610@gmail.com");
         return new ApiInfoBuilder()
                  // 文档标题
-                .title("乐天业务平台-系统管理服务-API说明文档")
+                .title("妙天业务平台-系统管理服务-API说明文档")
                 // 文档描述
                 .description("Mutopia System Management Service API")
                 .contact(contact)
