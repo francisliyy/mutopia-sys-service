@@ -213,6 +213,7 @@ public class SysUserController {
         	sendValidEmail(user, verifyCode);
         	user.setVerifycode(verifyCode);
         	user.setActiveTime(new Date());
+        	user.setCreateTime(new Date());
         	this.sysUserService.updateUser(user);        	
         }
 		
@@ -236,6 +237,7 @@ public class SysUserController {
         	sendValidMobile(user, verifyCode); 
         	user.setVerifycode(verifyCode);
         	user.setActiveTime(new Date());
+        	user.setCreateTime(new Date());
         	this.sysUserService.updateUser(user);
         }
 		
@@ -255,7 +257,7 @@ public class SysUserController {
 		contentsb.append(user.getEmail());   
 		contentsb.append("/");   
 		contentsb.append(verifyCode);  
-		contentsb.append("\">激活妙天平台账号"); 
+		contentsb.append("/>激活妙天平台账号"); 
 		contentsb.append("</a>");
 		
 		mailObj.setMailReceiver(user.getEmail());
