@@ -29,5 +29,11 @@ public final class Constants {
 	public static final String USER_STATUS_FORBIDDEN = "0";//禁用或未激活
 	public static final String USER_STATUS_ACTIVIATED = "1";//正常
 	public static final String USER_STATUS_DELETED = "2";//删除
+	
+	/**
+	 * 过期时间，15分钟
+	 */
+	public static final int EXPIRE_MINUTES = 15;
+	
 
 }

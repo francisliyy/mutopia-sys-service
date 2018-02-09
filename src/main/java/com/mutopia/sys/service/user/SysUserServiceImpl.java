@@ -48,6 +48,7 @@ public class SysUserServiceImpl implements SysUserService {
 		SysUser newuser = new SysUser();	
 		SysUserHi sysUserhi = new SysUserHi();
 		user.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
+		user.setCreateTime(new Date());
 		newuser = this.sysUserRepository.save(user);
 		BeanUtils.copyProperties(newuser, sysUserhi);
 		sysUserhi.setUserId(newuser.getId());
