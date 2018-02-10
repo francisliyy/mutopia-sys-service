@@ -10,5 +10,7 @@
 		<class>com.mutopia.sys.model.user.SysUserHi</class>
 		<class>com.mutopia.sys.model.user.SysUserRoleRel</class>
 		<class>com.mutopia.sys.model.user.SysUserRoleRelHi</class>
+		<class>com.mutopia.sys.model.dim.DimYesno</class>
+		<class>com.mutopia.sys.model.user.SysLoginLog</class>
 	</persistence-unit>
 </persistence>

@@ -20,8 +20,7 @@ public interface SysUserService {
 	
 	SysUser getUserByMobile(String mobile);
 	
-	//TODO
-	//SysUser getUserByNic(Long id);	
+	SysUser getByLoginNameAndPassword(String loginName,String password);
 
 	//TODO
     //void deleteUser(Long id);

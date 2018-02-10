@@ -38,6 +38,12 @@ public class SysUserServiceImpl implements SysUserService {
 	public SysUser getUserByMobile(String mobile) {
 		return this.sysUserRepository.findByMobile(mobile);
 	}
+	
+	@Override
+	public SysUser getByLoginNameAndPassword(String loginName, String password) {
+		// TODO Auto-generated method stub
+		return this.sysUserRepository.findByLoginNameAndPassword(loginName, password);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.mutopia.sys.service.user.SysUserService#createUser(com.mutopia.sys.model.user.SysUser)

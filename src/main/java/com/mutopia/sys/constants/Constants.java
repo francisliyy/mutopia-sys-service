@@ -16,6 +16,12 @@ public final class Constants {
 	public static final String CURRENT_SYSTEM = "MUTOPIA SYSTEM MANAGEMENT";
 	
 	/**
+	 * YES,NO
+	 */
+	public static final String YES_STATUS = "1";
+	public static final String NO_STATUS = "0";
+	
+	/**
 	 * 是否即时发送消息定义
 	 */
 	// 消息即时发送
@@ -34,6 +40,14 @@ public final class Constants {
 	 * 过期时间，15分钟
 	 */
 	public static final int EXPIRE_MINUTES = 15;
+	
+	/**
+	 * 登陆，退出
+	 */
+	public static final String LOGIN_OPT = "1";
+	public static final String LOGOUT_OPT = "2";
+	
+	
 	
 
 }
