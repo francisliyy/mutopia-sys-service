@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mutopia.sys.constants.Constants;
 import com.mutopia.sys.model.user.SysUser;
 import com.mutopia.sys.model.user.SysUserHi;
 import com.mutopia.sys.repository.SysUserHiRepository;
@@ -28,6 +29,11 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Autowired
 	private SysUserHiRepository sysUserHiRepository;
+	
+	@Override
+	public SysUser getUserById(Integer id) {
+		return this.sysUserRepository.findById(id);
+	}
 	
 	@Override
 	public SysUser getUserByEmail(String email) {
@@ -58,7 +64,9 @@ public class SysUserServiceImpl implements SysUserService {
 		newuser = this.sysUserRepository.save(user);
 		BeanUtils.copyProperties(newuser, sysUserhi);
 		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
 		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_REGISTER);
 		this.sysUserHiRepository.save(sysUserhi);
 		// TODO Auto-generated method stub
 		
@@ -66,15 +74,105 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	@Override
-	public SysUser updateUser(SysUser user) {
+	public SysUser mailActivate(SysUser user) {
 
 		SysUser newuser = new SysUser();	
 		SysUserHi sysUserhi = new SysUserHi();
 
 		newuser = this.sysUserRepository.save(user);
 		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setCreateTime(newuser.getCreateTime());
+		sysUserhi.setActiveTime(newuser.getActiveTime());
+		sysUserhi.setVerifyTime(user.getVerifyTime());
 		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
 		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_MAIL_ACTIVATE);
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
+	}
+	
+	@Override
+	public SysUser smsActivate(SysUser user) {
+
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setCreateTime(newuser.getCreateTime());
+		sysUserhi.setActiveTime(newuser.getActiveTime());
+		sysUserhi.setVerifyTime(user.getVerifyTime());
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_MOBIL_ACTIVATE);
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
+	}
+	
+	@Override
+	public SysUser sendVerifycodeByEmail(SysUser user) {
+
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setCreateTime(newuser.getCreateTime());
+		sysUserhi.setActiveTime(newuser.getActiveTime());
+		sysUserhi.setVerifyTime(user.getVerifyTime());
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_MAIL_VERIFY_TIMEOUT);
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
+	}
+	
+	@Override
+	public SysUser sendVerifycodeByMobile(SysUser user) {
+
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setCreateTime(newuser.getCreateTime());
+		sysUserhi.setActiveTime(newuser.getActiveTime());
+		sysUserhi.setVerifyTime(user.getVerifyTime());
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_MOBILE_VERIFY_TIMEOUT);
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
+	}
+
+	@Override
+	public SysUser modifyPassword(SysUser user) {
+		
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+
+		user.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setCreateTime(newuser.getCreateTime());
+		sysUserhi.setActiveTime(newuser.getActiveTime());
+		sysUserhi.setVerifyTime(user.getVerifyTime());
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_CHANGE_PASSWD);
 		this.sysUserHiRepository.save(sysUserhi);
 		// TODO Auto-generated method stub
 		

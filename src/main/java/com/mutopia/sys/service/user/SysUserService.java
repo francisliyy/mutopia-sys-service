@@ -14,13 +14,23 @@ public interface SysUserService {
 	
 	SysUser createUser(SysUser user);
 	
-	SysUser updateUser(SysUser user);
+	SysUser mailActivate(SysUser user);
+	
+	SysUser smsActivate(SysUser user);
+	
+	SysUser sendVerifycodeByEmail(SysUser user);
+	
+	SysUser sendVerifycodeByMobile(SysUser user);
+	
+	SysUser getUserById(Integer id);
 	
 	SysUser getUserByEmail(String email);
 	
 	SysUser getUserByMobile(String mobile);
 	
 	SysUser getByLoginNameAndPassword(String loginName,String password);
+
+	SysUser modifyPassword(SysUser user);
 
 	//TODO
     //void deleteUser(Long id);

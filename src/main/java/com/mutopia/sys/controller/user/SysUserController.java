@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -97,6 +98,7 @@ public class SysUserController {
         	verifyCode = Md5Encrypt.encodeByMD5("email"+user.getEmail());            
         }
         user.setVerifycode(verifyCode);
+        user.setVerifyTime(new Date());        
         user.setStatus(Constants.USER_STATUS_FORBIDDEN);
         SysUser newuser = this.sysUserService.createUser(user);
         
@@ -128,7 +130,7 @@ public class SysUserController {
                 ///没激活  
                 Date currentTime = new Date();//获取当前时间    
                 //验证链接是否过期   
-                if(currentTime.before(DateUtil.addMinute(user.getCreateTime(), Constants.EXPIRE_MINUTES))){
+                if(currentTime.before(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
                 	//验证激活码是否正确    
                     if(validateCode.equals(user.getVerifycode())) {    
                         //激活成功， //并更新用户的激活状态，为已激活   
@@ -136,7 +138,7 @@ public class SysUserController {
                         user.setStatus(Constants.USER_STATUS_ACTIVIATED);//把状态改为激活  
                         user.setActiveTime(new Date());
                         System.out.println("==sh==="+user.getStatus());  
-                        this.sysUserService.updateUser(user);  
+                        this.sysUserService.mailActivate(user);  
                     } else { 
                     }
                 }else{                	
@@ -170,7 +172,7 @@ public class SysUserController {
                 ///没激活  
                 Date currentTime = new Date();//获取当前时间    
                 //验证链接是否过期   
-                if(currentTime.before(DateUtil.addMinute(user.getCreateTime(), Constants.EXPIRE_MINUTES))){
+                if(currentTime.before(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
                 	//验证激活码是否正确    
                     if(validateCode.equals(user.getVerifycode())) {    
                         //激活成功， //并更新用户的激活状态，为已激活   
@@ -178,7 +180,7 @@ public class SysUserController {
                         user.setStatus(Constants.USER_STATUS_ACTIVIATED);//把状态改为激活  
                         user.setActiveTime(new Date());
                         System.out.println("==sh==="+user.getStatus());  
-                        this.sysUserService.updateUser(user);  
+                        this.sysUserService.smsActivate(user);  
                     } else {    
                     	throw new SysMgtException("验证码错误，请重新输入！");   
                     }
@@ -197,51 +199,93 @@ public class SysUserController {
 	}
 	
 	@ApiOperation(value="再次发送验证邮件", notes="再次发送验证邮件")
-	@ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "SysUser")
+	@ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer")
 	@PostMapping("/sendVerifycodeByEmail")
-    public String sendVerifycodeByEmail(@RequestBody SysUser user) throws SysMgtException {
+    public String sendVerifycodeByEmail(@PathVariable Integer userId) throws SysMgtException {
+		
+		SysUser user = this.sysUserService.getUserById(userId);
 		
     	String verifyCode = Md5Encrypt.encodeByMD5("email"+user.getEmail()); 
     	
     	Date currentTime = new Date();//获取当前时间    
         //验证链接是否过期   
-        if(currentTime.before(DateUtil.addMinute(user.getCreateTime(), Constants.EXPIRE_MINUTES))){
-        	throw new SysMgtException("激活邮件已发送至您的邮箱:"+user.getEmail()+",请查收后激活账号，谢谢！"); 
+        if(currentTime.before(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
+        	throw new SysMgtException("激活邮件已发送至您的邮箱:"+user.getEmail()+","+Constants.EXPIRE_MINUTES+"分钟内有效,请查收后激活账号，谢谢！"); 
         }else if(Constants.USER_STATUS_ACTIVIATED.equals(user.getStatus())){
         	throw new SysMgtException("您的账号已激活，谢谢！"); 
         }else{           	
         	sendValidEmail(user, verifyCode);
         	user.setVerifycode(verifyCode);
-        	user.setActiveTime(new Date());
-        	user.setCreateTime(new Date());
-        	this.sysUserService.updateUser(user);        	
+        	user.setVerifyTime(new Date());
+        	//user.setActiveTime(new Date());
+        	//user.setCreateTime(new Date());
+        	this.sysUserService.sendVerifycodeByEmail(user);        	
         }
 		
 		return "1";		
 	}	
 	
 	@ApiOperation(value="再次发送短信验证码", notes="再次发送短信验证码")
-	@ApiImplicitParam(name = "user", value = "用户对象", required = true, dataType = "SysUser")
-	@PostMapping("/sendVerifycodeByMobile")
-    public String sendVerifycodeByMobile(@RequestBody SysUser user) throws SysMgtException {
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "type", value = "验证类型:1,激活账号;2,修改密码", required = true, dataType = "String"),
+	})
+	@PostMapping("/sendVerifycodeByMobile/{userId}/{type}")
+    public String sendVerifycodeByMobile(@PathVariable Integer userId,@PathVariable String type) throws SysMgtException {
+		
+		SysUser user = this.sysUserService.getUserById(userId);
 		
 		String verifyCode = rNo.nextInt((999999 - 100000) + 1) + 100000 +""; 
     	
     	Date currentTime = new Date();//获取当前时间    
         //验证链接是否过期   
-        if(currentTime.before(DateUtil.addMinute(user.getCreateTime(), Constants.EXPIRE_MINUTES))){
-        	throw new SysMgtException("短信验证码已发送至您的手机:"+user.getMobile()+",请查收后激活账号，谢谢！"); 
-        }else if(Constants.USER_STATUS_ACTIVIATED.equals(user.getStatus())){
+        if(currentTime.before(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
+        	throw new SysMgtException("短信验证码已发送至您的手机:"+user.getMobile()+","+Constants.EXPIRE_MINUTES+"分钟内有效,请查收，谢谢！"); 
+        }else if("1".equals(type)&&Constants.USER_STATUS_ACTIVIATED.equals(user.getStatus())){
         	throw new SysMgtException("您的账号已激活，谢谢！"); 
+        }else if("2".equals(type)&&!Constants.USER_STATUS_ACTIVIATED.equals(user.getStatus())){
+        	throw new SysMgtException("您的账号未激活或账号已被冻结，无法修改密码！"); 
         }else{           	
         	sendValidMobile(user, verifyCode); 
         	user.setVerifycode(verifyCode);
-        	user.setActiveTime(new Date());
-        	user.setCreateTime(new Date());
-        	this.sysUserService.updateUser(user);
+        	user.setVerifyTime(new Date());
+        	//user.setActiveTime(new Date());
+        	//user.setCreateTime(new Date());
+        	this.sysUserService.sendVerifycodeByMobile(user);
         }
 		
 		return "1";		
+	}
+	
+	@ApiOperation(value="修改密码", notes="修改密码")
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "userId", value = "用户ID", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "oldPassword", value = "旧密码", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "newPassword", value = "新密码", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "verifyCode", value = "验证码", required = true, dataType = "String"),
+	})
+	@PostMapping("/modifyPassword/{userId}")
+	public SysUser modifyPassword(@PathVariable Integer userId,String oldPassword,String newPassword,String verifyCode) throws SysMgtException{
+		
+		SysUser user = this.sysUserService.getUserById(userId);
+		if(!oldPassword.equals(user.getPassword())){
+			throw new SysMgtException("旧密码输入有误，请重新输入！"); 
+		}
+        Date currentTime = new Date();//获取当前时间    
+        //验证链接是否过期   
+        if(currentTime.before(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
+        	if(verifyCode.equals(user.getVerifycode())) {
+        		user.setPassword(newPassword);
+        		this.sysUserService.modifyPassword(user);
+        	}else{
+        		throw new SysMgtException("验证码输入有误！");  
+        	}
+        }else{
+        	throw new SysMgtException("验证码已过期！");  
+        }
+		
+		return user;
+		
 	}
 
 	private void sendValidEmail(SysUser user,String verifyCode) {

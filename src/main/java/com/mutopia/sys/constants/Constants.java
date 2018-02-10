@@ -36,6 +36,13 @@ public final class Constants {
 	public static final String USER_STATUS_ACTIVIATED = "1";//正常
 	public static final String USER_STATUS_DELETED = "2";//删除
 	
+	public static final String USER_REGISTER = "1";//用户注册
+	public static final String USER_MAIL_VERIFY_TIMEOUT = "2";//邮件验证码过期重发
+	public static final String USER_MOBILE_VERIFY_TIMEOUT = "3";//短信验证码过期重发
+	public static final String USER_CHANGE_PASSWD = "4";//修改密码
+	public static final String USER_MAIL_ACTIVATE = "5";//邮件修改密码
+	public static final String USER_MOBIL_ACTIVATE = "6";//短信修改密码
+	
 	/**
 	 * 过期时间，15分钟
 	 */

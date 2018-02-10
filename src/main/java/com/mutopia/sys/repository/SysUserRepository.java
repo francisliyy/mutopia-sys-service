@@ -26,6 +26,9 @@ public interface SysUserRepository extends Repository<SysUser, Integer> {
     @Transactional(readOnly = true)	
 	SysUser findByMobile(@Param("mobile") String mobile);
 	
+	@Transactional(readOnly = true)
+	SysUser findById(Integer id);
+	
 	@Query("SELECT DISTINCT user FROM SysUser user WHERE (user.mobile = :loginName or user.email = :loginName) and password = :password")
     @Transactional(readOnly = true)	
 	SysUser findByLoginNameAndPassword(@Param("loginName") String loginName,@Param("password")String password);

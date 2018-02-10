@@ -2,7 +2,6 @@ package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.sql.Timestamp;
 
 
 /**
@@ -16,7 +15,7 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="active_time")
-	private Timestamp activeTime;
+	private Date activeTime;
 
 	private String alipay;
 
@@ -24,7 +23,7 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private Date birthday;
 
 	@Column(name="create_time")
-	private Timestamp createTime;
+	private Date createTime;
 
 	private String email;
 
@@ -55,8 +54,41 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private String wechat;
 	
 	private String verifycode;
-
+	
+	@Column(name="update_user")
+	private int updateUser;
+	
+	@Column(name="update_type")
+	private String updateType;
+	
+	@Column(name="verify_time")
+	private Date verifyTime;
+	
 	public SysUserHi() {
+	}
+
+	public Date getVerifyTime() {
+		return verifyTime;
+	}
+
+	public void setVerifyTime(Date verifyTime) {
+		this.verifyTime = verifyTime;
+	}
+
+	public int getUpdateUser() {
+		return updateUser;
+	}
+
+	public void setUpdateUser(int updateUser) {
+		this.updateUser = updateUser;
+	}
+
+	public String getUpdateType() {
+		return updateType;
+	}
+
+	public void setUpdateType(String updateType) {
+		this.updateType = updateType;
 	}
 	
 	public String getVerifycode() {
@@ -67,11 +99,11 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.verifycode = verifycode;
 	}
 
-	public Timestamp getActiveTime() {
+	public Date getActiveTime() {
 		return this.activeTime;
 	}
 
-	public void setActiveTime(Timestamp activeTime) {
+	public void setActiveTime(Date activeTime) {
 		this.activeTime = activeTime;
 	}
 
@@ -91,11 +123,11 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.birthday = birthday;
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 

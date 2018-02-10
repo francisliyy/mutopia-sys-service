@@ -11,7 +11,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import io.swagger.annotations.ApiModel;
 
 import java.util.Date;
-import java.sql.Timestamp;
 
 
 /**
@@ -65,8 +64,19 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	private String wechat;
 	
 	private String verifycode;
+	
+	@Column(name="verify_time")
+	private Date verifyTime;
 
 	public SysUser() {
+	}
+
+	public Date getVerifyTime() {
+		return verifyTime;
+	}
+
+	public void setVerifyTime(Date verifyTime) {
+		this.verifyTime = verifyTime;
 	}
 
 	public String getVerifycode() {
