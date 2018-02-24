@@ -32,10 +32,14 @@ public final class Constants {
 	/**
 	 * 用户常量
 	 */
+	public static final String USER_CUSTOMER = "1";//玩家
+	public static final String USER_BUSINESS = "2";//商家
+	
 	public static final String USER_STATUS_FORBIDDEN = "0";//禁用或未激活
 	public static final String USER_STATUS_ACTIVIATED = "1";//正常
 	public static final String USER_STATUS_DELETED = "2";//删除
 	
+	public static final String USER_SMS_VERIFY_REGISTER = "0";//注册短信验证
 	public static final String USER_REGISTER = "1";//用户注册
 	public static final String USER_MAIL_VERIFY_TIMEOUT = "2";//邮件验证码过期重发
 	public static final String USER_MOBILE_VERIFY_TIMEOUT = "3";//短信验证码过期重发

@@ -5,7 +5,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import io.swagger.annotations.ApiModel;
@@ -44,12 +43,11 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	private String logo;
 
-	@Pattern(regexp="^\\s*|1\\d{10}$",message="手机号码有误")
+	@Pattern(regexp="^1[3|4|5|7|8]\\d{9}$",message="手机号码有误")
 	private String mobile;
 
 	private String name;
 
-	@NotEmpty(message="请输入您的昵称")
 	private String nickname;
 	
 	@Size(min = 6, message = "您的密码需为大于等于6位")

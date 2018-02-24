@@ -72,6 +72,29 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		return newuser;
 	}
+	
+	@Override
+	public SysUser smsVerifyUser(SysUser user) {
+		SysUser newuser = new SysUser();	
+		SysUserHi sysUserhi = new SysUserHi();
+		user.setCreateTime(new Date());
+		newuser = this.sysUserRepository.save(user);
+		BeanUtils.copyProperties(newuser, sysUserhi);
+		sysUserhi.setUserId(newuser.getId());
+		sysUserhi.setUpdateUser(newuser.getId());
+		sysUserhi.setUpdateTime(new Date());
+		sysUserhi.setUpdateType(Constants.USER_SMS_VERIFY_REGISTER);
+		this.sysUserHiRepository.save(sysUserhi);
+		// TODO Auto-generated method stub
+		
+		return newuser;
+	}
+
+	@Override
+	public SysUser mobileRegisterUser(SysUser user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public SysUser mailActivate(SysUser user) {

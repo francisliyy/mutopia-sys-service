@@ -14,6 +14,10 @@ public interface SysUserService {
 	
 	SysUser createUser(SysUser user);
 	
+	SysUser smsVerifyUser(SysUser user);
+	
+	SysUser mobileRegisterUser(SysUser user);
+	
 	SysUser mailActivate(SysUser user);
 	
 	SysUser smsActivate(SysUser user);
