@@ -120,10 +120,17 @@ public class SysUserController {
         
         if(!user.getVerifycode().equals(existUser.getVerifycode())){
         	throw new SysMgtException("验证码输入错误"); 
+        }else{
+        	Date currentTime = new Date();//获取当前时间    
+            //验证链接是否过期   
+            if(currentTime.after(DateUtil.addMinute(existUser.getVerifyTime(), Constants.EXPIRE_MINUTES))){
+            	throw new SysMgtException("验证码已过期"); 
+            }        	
         }
-        user.setVerifyTime(new Date());        
-        user.setStatus(Constants.USER_STATUS_ACTIVIATED);
-        SysUser newuser = this.sysUserService.createUser(user);
+        existUser.setPassword(user.getPassword());
+        existUser.setVerifyTime(new Date());        
+        existUser.setStatus(Constants.USER_STATUS_ACTIVIATED);
+        SysUser newuser = this.sysUserService.createUser(existUser);
 
         return newuser;
     }
