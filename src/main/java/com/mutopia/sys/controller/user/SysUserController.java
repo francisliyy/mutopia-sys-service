@@ -64,7 +64,7 @@ public class SysUserController {
 		@ApiImplicitParam(name = "mobile", value = "手机号", required = true, dataType = "String")
 	})	
 	@GetMapping("/smsRegister/{mobile}")
-	public String smsRegister(@PathVariable String mobile) throws SysMgtException{
+	public String smsRegister(@PathVariable String mobile) {
 		
 		SysUser user = this.sysUserService.getUserByMobile(mobile);
 		
@@ -77,12 +77,17 @@ public class SysUserController {
                 //验证链接是否过期   
                 if(currentTime.after(DateUtil.addMinute(user.getVerifyTime(), Constants.EXPIRE_MINUTES))){
                 	//验证激活码是否正确    
-                	this.sendVerifycodeByMobile(mobile, "0");
+                	try {
+						this.sendVerifycodeByMobile(mobile, "0");
+					} catch (SysMgtException e) {
+						// TODO Auto-generated catch block
+						return e.getLocalizedMessage(); 
+					}
                 }else{
-                	throw new SysMgtException("短信验证码已发送至您的手机:"+user.getMobile()+","+Constants.EXPIRE_MINUTES+"分钟内有效,请查收，谢谢！");  
+                	return "短信验证码已发送,"+Constants.EXPIRE_MINUTES+"分钟内有效！";  
                 }                  
             } else {  
-               throw new SysMgtException("您的账号已注册，请直接登录！");    
+               return "您的账号已注册，请直接登录！";    
             }    
         } else {  
         	String verifyCode = rNo.nextInt((999999 - 100000) + 1) + 100000 +""; 
@@ -376,7 +381,7 @@ public class SysUserController {
 		smsvo.setSmsSourceCtlUrl("/user");
 		smsvo.setSmsTime(new Date());
 		
-		restTemplate.postForEntity(this.env.getProperty("mutopia.msg.system")+"/alisms/", smsvo,Boolean.class);
+		//restTemplate.postForEntity(this.env.getProperty("mutopia.msg.system")+"/alisms/", smsvo,Boolean.class);
 	}
 	
 }
