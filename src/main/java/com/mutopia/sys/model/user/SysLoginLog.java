@@ -39,7 +39,7 @@ public class SysLoginLog implements Serializable {
 	private String status;
 
 	@Column(name="user_id")
-	private int userId;
+	private long userId;
 
 	public SysLoginLog() {
 	}
@@ -108,11 +108,11 @@ public class SysLoginLog implements Serializable {
 		this.status = status;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 

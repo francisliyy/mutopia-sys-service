@@ -49,14 +49,14 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private Date updateTime;
 
 	@Column(name="user_id")
-	private int userId;
+	private long userId;
 
 	private String wechat;
 	
 	private String verifycode;
 	
 	@Column(name="update_user")
-	private int updateUser;
+	private long updateUser;
 	
 	@Column(name="update_type")
 	private String updateType;
@@ -75,11 +75,11 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.verifyTime = verifyTime;
 	}
 
-	public int getUpdateUser() {
+	public long getUpdateUser() {
 		return updateUser;
 	}
 
-	public void setUpdateUser(int updateUser) {
+	public void setUpdateUser(long updateUser) {
 		this.updateUser = updateUser;
 	}
 
@@ -219,11 +219,11 @@ public class SysUserHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.updateTime = updateTime;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 

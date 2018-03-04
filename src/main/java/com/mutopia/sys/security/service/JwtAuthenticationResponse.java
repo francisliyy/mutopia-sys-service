@@ -1,0 +1,30 @@
+/**
+ * <p>Title: JwtAuthenticationResponse</p>
+ * <p>Description: </p>
+ * <p>Copyright: Copyright (c) 2018</p>
+ * <p>Company: MUTOPIA</p>
+ * @author lyx
+ * @version 1.0
+ */
+package com.mutopia.sys.security.service;
+
+import java.io.Serializable;
+
+public class JwtAuthenticationResponse implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private final String token;
+
+    public JwtAuthenticationResponse(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+}

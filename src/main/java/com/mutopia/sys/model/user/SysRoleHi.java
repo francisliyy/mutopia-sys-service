@@ -1,7 +1,7 @@
 package com.mutopia.sys.model.user;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -15,7 +15,7 @@ public class SysRoleHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name="create_time")
-	private Timestamp createTime;
+	private Date createTime;
 
 	@Column(name="create_user")
 	private int createUser;
@@ -30,7 +30,7 @@ public class SysRoleHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private String status;
 
 	@Column(name="update_time")
-	private Timestamp updateTime;
+	private Date updateTime;
 
 	@Column(name="update_user")
 	private int updateUser;
@@ -38,11 +38,11 @@ public class SysRoleHi extends com.mutopia.sys.model.base.BaseEntity  {
 	public SysRoleHi() {
 	}
 
-	public Timestamp getCreateTime() {
+	public Date getCreateTime() {
 		return this.createTime;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
+	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
 
@@ -86,11 +86,11 @@ public class SysRoleHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.status = status;
 	}
 
-	public Timestamp getUpdateTime() {
+	public Date getUpdateTime() {
 		return this.updateTime;
 	}
 
-	public void setUpdateTime(Timestamp updateTime) {
+	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
 	}
 

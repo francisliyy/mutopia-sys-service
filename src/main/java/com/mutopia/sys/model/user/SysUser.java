@@ -10,6 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import io.swagger.annotations.ApiModel;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -20,7 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name="sys_user")
 @NamedQuery(name="SysUser.findAll", query="SELECT s FROM SysUser s")
-public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
+public class SysUser extends com.mutopia.sys.model.base.BaseEntity{
 	private static final long serialVersionUID = 1L;
 
 	//@Column(name="active_time",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -65,6 +66,12 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 	
 	@Column(name="verify_time")
 	private Date verifyTime;
+	
+    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @JoinTable(name = "sys_user_role_rel",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<SysRole> roles;
 
 	public SysUser() {
 	}
@@ -203,6 +210,14 @@ public class SysUser extends com.mutopia.sys.model.base.BaseEntity  {
 
 	public void setWechat(String wechat) {
 		this.wechat = wechat;
+	}
+
+	public List<SysRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<SysRole> roles) {
+		this.roles = roles;
 	}
 
 }
