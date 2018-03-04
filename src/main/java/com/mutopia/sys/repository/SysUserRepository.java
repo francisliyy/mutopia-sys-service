@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mutopia.sys.model.user.SysUser;
 
 @org.springframework.stereotype.Repository
-public interface SysUserRepository extends Repository<SysUser, Integer> {
+public interface SysUserRepository extends Repository<SysUser, Long> {
 	
 	@Query("SELECT DISTINCT user FROM SysUser user WHERE user.email = :email")
     @Transactional(readOnly = true)	

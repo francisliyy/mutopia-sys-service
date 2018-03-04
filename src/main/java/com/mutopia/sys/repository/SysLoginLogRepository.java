@@ -12,7 +12,7 @@ import org.springframework.data.repository.Repository;
 
 import com.mutopia.sys.model.user.SysLoginLog;
 
-public interface SysLoginLogRepository extends Repository<SysLoginLog, Integer>{
+public interface SysLoginLogRepository extends Repository<SysLoginLog, Long>{
 	
 	SysLoginLog save(SysLoginLog loginlog);
 

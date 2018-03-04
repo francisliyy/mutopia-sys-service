@@ -12,7 +12,7 @@ import org.springframework.data.repository.Repository;
 
 import com.mutopia.sys.model.user.SysRole;
 
-public interface SysRoleRepository extends Repository<SysRole, Integer> {
+public interface SysRoleRepository extends Repository<SysRole, Long> {
 	
 	void save(SysRole owner);
 

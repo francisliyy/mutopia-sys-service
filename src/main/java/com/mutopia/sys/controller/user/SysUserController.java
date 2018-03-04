@@ -11,10 +11,14 @@ package com.mutopia.sys.controller.user;
 import java.util.Date;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,6 +35,8 @@ import com.mutopia.sys.constants.Constants;
 import com.mutopia.sys.exceptions.EmailExistException;
 import com.mutopia.sys.exceptions.SysMgtException;
 import com.mutopia.sys.model.user.SysUser;
+import com.mutopia.sys.security.JWTTokenUtil;
+import com.mutopia.sys.security.JWTUser;
 import com.mutopia.sys.service.user.SysUserService;
 import com.mutopia.sys.utils.DateUtil;
 import com.mutopia.sys.utils.Md5Encrypt;
@@ -44,6 +51,7 @@ import io.swagger.annotations.ApiOperation;
 @Api(description = "用户服务")
 @RestController
 @RequestMapping("/user")
+@PropertySource("classpath:jwt.properties")
 public class SysUserController {
 	
 	@Autowired
@@ -52,12 +60,29 @@ public class SysUserController {
 	@Autowired
     private Environment env;
 	
+    @Value("${jwt.header}")
+    private String tokenHeader;
+
+    @Autowired
+    private JWTTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+	
 	private Random rNo = new Random();
 	
 	/*@InitBinder
     public void initUserBinder(WebDataBinder dataBinder) {
         dataBinder.setValidator(new SysUserValidator());
     }*/
+	@ApiOperation(value="通过TOKEN获取用户信息", notes="通过TOKEN获取用户信息")
+	@RequestMapping(value = "/fromtoken", method = RequestMethod.GET)
+    public JWTUser getAuthenticatedUser(HttpServletRequest request) {
+        String token = request.getHeader(tokenHeader).substring(7);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        JWTUser user = (JWTUser) userDetailsService.loadUserByUsername(username);
+        return user;
+    }
 	
 	@ApiOperation(value="手机注册获取验证码", notes="手机注册获取验证码")
 	@ApiImplicitParams({ 

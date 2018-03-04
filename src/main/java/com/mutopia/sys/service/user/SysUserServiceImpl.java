@@ -12,14 +12,18 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mutopia.sys.constants.Constants;
 import com.mutopia.sys.model.user.SysUser;
 import com.mutopia.sys.model.user.SysUserHi;
+import com.mutopia.sys.model.user.SysUserRoleRel;
+import com.mutopia.sys.model.user.SysUserRoleRelHi;
 import com.mutopia.sys.repository.SysUserHiRepository;
 import com.mutopia.sys.repository.SysUserRepository;
-import com.mutopia.sys.utils.Md5Encrypt;
+import com.mutopia.sys.repository.SysUserRoleRelHiRepository;
+import com.mutopia.sys.repository.SysUserRoleRelRepository;
 
 @Service
 public class SysUserServiceImpl implements SysUserService {
@@ -29,6 +33,12 @@ public class SysUserServiceImpl implements SysUserService {
 	
 	@Autowired
 	private SysUserHiRepository sysUserHiRepository;
+	
+	@Autowired
+	private SysUserRoleRelRepository sysUserRoleRelRepository;
+	
+	@Autowired
+	private SysUserRoleRelHiRepository sysUserRoleRelHiRepository;
 	
 	@Override
 	public SysUser getUserById(Integer id) {
@@ -59,16 +69,32 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		SysUser newuser = new SysUser();	
 		SysUserHi sysUserhi = new SysUserHi();
-		user.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
+		SysUserRoleRel sysUserRoleRel = new SysUserRoleRel();
+		SysUserRoleRelHi sysUserRoleRelHi = new SysUserRoleRelHi();
+		BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
 		user.setCreateTime(new Date());
 		newuser = this.sysUserRepository.save(user);
+		
 		BeanUtils.copyProperties(newuser, sysUserhi);
 		sysUserhi.setUserId(newuser.getId());
 		sysUserhi.setUpdateUser(newuser.getId());
 		sysUserhi.setUpdateTime(new Date());
-		sysUserhi.setUpdateType(Constants.USER_REGISTER);
+		sysUserhi.setUpdateType(Constants.USER_REGISTER);		
 		this.sysUserHiRepository.save(sysUserhi);
-		// TODO Auto-generated method stub
+		
+		sysUserRoleRel.setUserId(user.getId());
+		sysUserRoleRel.setRoleId(Constants.ROLE_USER);
+		sysUserRoleRel.setStatus(Constants.ENABLED_STATUS);
+		sysUserRoleRel.setCreateUser(user.getId());
+		sysUserRoleRel.setCreateTime(new Date());
+		this.sysUserRoleRelRepository.save(sysUserRoleRel);
+		
+		BeanUtils.copyProperties(sysUserRoleRel, sysUserRoleRelHi);
+		sysUserRoleRelHi.setUserRoleRelId(sysUserRoleRel.getId());
+		sysUserRoleRelHi.setUpdateUser(sysUserRoleRel.getUserId());
+		sysUserRoleRelHi.setUpdateTime(new Date());
+		this.sysUserRoleRelHiRepository.save(sysUserRoleRelHi);
 		
 		return newuser;
 	}
@@ -88,12 +114,6 @@ public class SysUserServiceImpl implements SysUserService {
 		// TODO Auto-generated method stub
 		
 		return newuser;
-	}
-
-	@Override
-	public SysUser mobileRegisterUser(SysUser user) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -185,8 +205,8 @@ public class SysUserServiceImpl implements SysUserService {
 		
 		SysUser newuser = new SysUser();	
 		SysUserHi sysUserhi = new SysUserHi();
-
-		user.setPassword(Md5Encrypt.encodeByMD5(user.getPassword()));
+		BCryptPasswordEncoder encoder =new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
 		newuser = this.sysUserRepository.save(user);
 		BeanUtils.copyProperties(newuser, sysUserhi);
 		sysUserhi.setCreateTime(newuser.getCreateTime());

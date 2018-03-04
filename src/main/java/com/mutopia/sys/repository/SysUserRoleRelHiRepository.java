@@ -1,5 +1,5 @@
 /**
- * <p>Title: SysUserHiRepository</p>
+ * <p>Title: SysUserRoleRelHiRepository</p>
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2018</p>
  * <p>Company: MUTOPIA</p>
@@ -10,11 +10,11 @@ package com.mutopia.sys.repository;
 
 import org.springframework.data.repository.Repository;
 
-import com.mutopia.sys.model.user.SysUserHi;
+import com.mutopia.sys.model.user.SysUserRoleRelHi;
 
 @org.springframework.stereotype.Repository
-public interface SysUserHiRepository extends Repository<SysUserHi, Long>{
+public interface SysUserRoleRelHiRepository extends Repository<SysUserRoleRelHi, Long> {
 	
-	SysUserHi save(SysUserHi user);
+	SysUserRoleRelHi save(SysUserRoleRelHi sysUserRoleRelHi);
 
 }

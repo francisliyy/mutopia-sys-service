@@ -22,6 +22,13 @@ public final class Constants {
 	public static final String NO_STATUS = "0";
 	
 	/**
+	 * Dim_status
+	 */
+	public static final String DISABLED_STATUS = "0";
+	public static final String ENABLED_STATUS = "1";
+	public static final String DELETED_STATUS = "2";
+	
+	/**
 	 * 是否即时发送消息定义
 	 */
 	// 消息即时发送
@@ -57,6 +64,12 @@ public final class Constants {
 	 */
 	public static final String LOGIN_OPT = "1";
 	public static final String LOGOUT_OPT = "2";
+	
+	/**
+	 * 角色
+	 */
+	public static final int ROLE_ADMIN = 1;
+	public static final int ROLE_USER = 2;
 	
 	
 	

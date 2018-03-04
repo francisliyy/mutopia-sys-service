@@ -18,7 +18,7 @@ public class SysUserRoleRelHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private Date createTime;
 
 	@Column(name="create_user")
-	private int createUser;
+	private long createUser;
 
 	@Column(name="role_id")
 	private int roleId;
@@ -29,13 +29,13 @@ public class SysUserRoleRelHi extends com.mutopia.sys.model.base.BaseEntity  {
 	private Date updateTime;
 
 	@Column(name="update_user")
-	private int updateUser;
+	private long updateUser;
 
 	@Column(name="user_id")
-	private int userId;
+	private long userId;
 
 	@Column(name="user_role_rel_id")
-	private int userRoleRelId;
+	private long userRoleRelId;
 
 	public SysUserRoleRelHi() {
 	}
@@ -48,11 +48,11 @@ public class SysUserRoleRelHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.createTime = createTime;
 	}
 
-	public int getCreateUser() {
+	public long getCreateUser() {
 		return this.createUser;
 	}
 
-	public void setCreateUser(int createUser) {
+	public void setCreateUser(long createUser) {
 		this.createUser = createUser;
 	}
 
@@ -80,27 +80,27 @@ public class SysUserRoleRelHi extends com.mutopia.sys.model.base.BaseEntity  {
 		this.updateTime = updateTime;
 	}
 
-	public int getUpdateUser() {
+	public long getUpdateUser() {
 		return this.updateUser;
 	}
 
-	public void setUpdateUser(int updateUser) {
+	public void setUpdateUser(long updateUser) {
 		this.updateUser = updateUser;
 	}
 
-	public int getUserId() {
+	public long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
-	public int getUserRoleRelId() {
+	public long getUserRoleRelId() {
 		return this.userRoleRelId;
 	}
 
-	public void setUserRoleRelId(int userRoleRelId) {
+	public void setUserRoleRelId(long userRoleRelId) {
 		this.userRoleRelId = userRoleRelId;
 	}
 

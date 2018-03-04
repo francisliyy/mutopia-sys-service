@@ -16,8 +16,6 @@ public interface SysUserService {
 	
 	SysUser smsVerifyUser(SysUser user);
 	
-	SysUser mobileRegisterUser(SysUser user);
-	
 	SysUser mailActivate(SysUser user);
 	
 	SysUser smsActivate(SysUser user);
